@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
@@ -17,74 +18,76 @@ function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AuthProvider>
-        <NotificationProvider>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/welcome" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+        <ThemeProvider>
+          <NotificationProvider>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/welcome" element={<Landing />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-            {/* Protected Routes */}
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <div className="min-h-screen bg-bg-primary">
-                    <Navbar />
-                    <Home />
-                  </div>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile/:id"
-              element={
-                <ProtectedRoute>
-                  <div className="min-h-screen bg-bg-primary">
-                    <Navbar />
-                    <Profile />
-                  </div>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/notifications"
-              element={
-                <ProtectedRoute>
-                  <div className="min-h-screen bg-bg-primary">
-                    <Navbar />
-                    <Notifications />
-                  </div>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/people"
-              element={
-                <ProtectedRoute>
-                  <div className="min-h-screen bg-bg-primary">
-                    <Navbar />
-                    <People />
-                  </div>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin"
-              element={
-                <AdminRoute>
-                  <div className="min-h-screen bg-bg-primary">
-                    <Navbar />
-                    <AdminDashboard />
-                  </div>
-                </AdminRoute>
-              }
-            />
+              {/* Protected Routes */}
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <div className="min-h-screen bg-bg-primary">
+                      <Navbar />
+                      <Home />
+                    </div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile/:id"
+                element={
+                  <ProtectedRoute>
+                    <div className="min-h-screen bg-bg-primary">
+                      <Navbar />
+                      <Profile />
+                    </div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notifications"
+                element={
+                  <ProtectedRoute>
+                    <div className="min-h-screen bg-bg-primary">
+                      <Navbar />
+                      <Notifications />
+                    </div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/people"
+                element={
+                  <ProtectedRoute>
+                    <div className="min-h-screen bg-bg-primary">
+                      <Navbar />
+                      <People />
+                    </div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <AdminRoute>
+                    <div className="min-h-screen bg-bg-primary">
+                      <Navbar />
+                      <AdminDashboard />
+                    </div>
+                  </AdminRoute>
+                }
+              />
 
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </NotificationProvider>
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </NotificationProvider>
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
   );
