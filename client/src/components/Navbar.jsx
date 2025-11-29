@@ -70,17 +70,22 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className={`sticky top-0 z-40 glass border-b border-border transition-all duration-300 ${showMobileMenu ? 'md:backdrop-blur-md backdrop-blur-sm bg-opacity-100' : 'bg-opacity-0'}`}>
+            <nav
+                className="sticky top-0 z-40 border-b transition-all duration-300"
+                style={{
+                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    borderColor: theme === 'dark' ? '#475569' : '#e2e8f0'
+                }}
+            >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         {/* Logo */}
                         <Link to="/" className="flex items-center gap-2">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
-                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                            </div>
-                            <span className="text-xl font-bold gradient-text hidden sm:block">EchoSocial</span>
+                            <img
+                                src="/Logo.png"
+                                alt="EchoSocial Logo"
+                                className="h-20 w-auto"
+                            />
                         </Link>
 
                         {/* Mobile Menu Button */}
@@ -373,14 +378,36 @@ const Navbar = () => {
                         ></div>
 
                         {/* Mobile Menu Panel */}
-                        <div className="fixed top-0 left-0 h-full w-64 bg-bg-primary/95 backdrop-blur-xl border-r border-border z-50 md:hidden animate-slide-in shadow-2xl">
+                        <div
+                            className="fixed top-0 left-0 h-full w-64 border-r z-50 md:hidden animate-slide-in shadow-2xl"
+                            style={{
+                                backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                                borderColor: theme === 'dark' ? '#475569' : '#e2e8f0'
+                            }}
+                        >
                             <div className="flex flex-col h-full">
                                 {/* Menu Header */}
-                                <div className="flex items-center justify-between p-4 border-b border-border">
-                                    <span className="text-lg font-bold gradient-text">Menu</span>
+                                <div
+                                    className="flex items-center justify-between p-4 border-b"
+                                    style={{
+                                        borderColor: theme === 'dark' ? '#475569' : '#e2e8f0'
+                                    }}
+                                >
+                                    <span
+                                        className="text-lg font-bold"
+                                        style={{
+                                            color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                                        }}
+                                    >Menu</span>
                                     <button
                                         onClick={() => setShowMobileMenu(false)}
-                                        className="btn btn-ghost btn-sm"
+                                        className="p-2 rounded-lg transition-colors"
+                                        style={{
+                                            color: theme === 'dark' ? '#ffffff' : '#0f172a',
+                                            backgroundColor: 'transparent'
+                                        }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#334155' : '#f1f5f9'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                     >
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -394,7 +421,12 @@ const Navbar = () => {
                                         {/* Home */}
                                         <Link
                                             to="/"
-                                            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-tertiary transition-colors"
+                                            className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+                                            style={{
+                                                color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#334155' : '#f1f5f9'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                             onClick={() => setShowMobileMenu(false)}
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -406,7 +438,12 @@ const Navbar = () => {
                                         {/* People */}
                                         <Link
                                             to="/people"
-                                            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-tertiary transition-colors"
+                                            className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+                                            style={{
+                                                color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#334155' : '#f1f5f9'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                             onClick={() => setShowMobileMenu(false)}
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -418,7 +455,12 @@ const Navbar = () => {
                                         {/* Notifications */}
                                         <Link
                                             to="/notifications"
-                                            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-tertiary transition-colors relative"
+                                            className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors relative"
+                                            style={{
+                                                color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#334155' : '#f1f5f9'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                             onClick={() => setShowMobileMenu(false)}
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -436,7 +478,12 @@ const Navbar = () => {
                                         {user?.role === 'admin' && (
                                             <Link
                                                 to="/admin"
-                                                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-tertiary transition-colors"
+                                                className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+                                                style={{
+                                                    color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                                                }}
+                                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#334155' : '#f1f5f9'}
+                                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                                 onClick={() => setShowMobileMenu(false)}
                                             >
                                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -447,7 +494,12 @@ const Navbar = () => {
                                         )}
 
                                         {/* Divider */}
-                                        <div className="border-t border-border my-2"></div>
+                                        <div
+                                            className="border-t my-2"
+                                            style={{
+                                                borderColor: theme === 'dark' ? '#475569' : '#e2e8f0'
+                                            }}
+                                        ></div>
 
                                         {/* Theme Toggle */}
                                         <button
@@ -455,7 +507,12 @@ const Navbar = () => {
                                                 toggleTheme();
                                                 setShowMobileMenu(false);
                                             }}
-                                            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-tertiary transition-colors w-full text-left"
+                                            className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left"
+                                            style={{
+                                                color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#334155' : '#f1f5f9'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                         >
                                             {theme === 'dark' ? (
                                                 <>
@@ -477,7 +534,12 @@ const Navbar = () => {
                                         {/* Profile */}
                                         <Link
                                             to={`/profile/${user?._id}`}
-                                            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-tertiary transition-colors"
+                                            className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+                                            style={{
+                                                color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#334155' : '#f1f5f9'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                             onClick={() => setShowMobileMenu(false)}
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -492,7 +554,12 @@ const Navbar = () => {
                                                 handleLogout();
                                                 setShowMobileMenu(false);
                                             }}
-                                            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-tertiary transition-colors w-full text-left text-error"
+                                            className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left"
+                                            style={{
+                                                color: theme === 'dark' ? '#f87171' : '#dc2626'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(127, 29, 29, 0.3)' : '#fee2e2'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -503,12 +570,27 @@ const Navbar = () => {
                                 </div>
 
                                 {/* User Info Footer */}
-                                <div className="p-4 border-t border-border">
+                                <div
+                                    className="p-4 border-t"
+                                    style={{
+                                        borderColor: theme === 'dark' ? '#475569' : '#e2e8f0'
+                                    }}
+                                >
                                     <div className="flex items-center gap-3">
                                         <Avatar src={user?.avatar} alt={user?.username} size="md" />
                                         <div className="flex-1 min-w-0">
-                                            <p className="font-semibold truncate">{user?.username}</p>
-                                            <p className="text-sm text-text-muted truncate">{user?.email}</p>
+                                            <p
+                                                className="font-semibold truncate"
+                                                style={{
+                                                    color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                                                }}
+                                            >{user?.username}</p>
+                                            <p
+                                                className="text-sm truncate"
+                                                style={{
+                                                    color: theme === 'dark' ? '#94a3b8' : '#64748b'
+                                                }}
+                                            >{user?.email}</p>
                                         </div>
                                     </div>
                                 </div>
