@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
 const Comment = require('../models/Comment');
 const Notification = require('../models/Notification');
 
@@ -78,6 +79,18 @@ exports.createPost = async (req, res) => {
             mediaUrl,
             mediaType
         });
+
+        // Notify followers
+        const user = await User.findById(req.user._id).select('followers');
+        if (user.followers && user.followers.length > 0) {
+            const notifications = user.followers.map(followerId => ({
+                user: followerId,
+                type: 'post',
+                actor: req.user._id,
+                post: post._id
+            }));
+            await Notification.insertMany(notifications);
+        }
 
         const populatedPost = await Post.findById(post._id)
             .populate('author', 'username avatar');
