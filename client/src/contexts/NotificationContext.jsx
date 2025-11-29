@@ -23,10 +23,10 @@ export const NotificationProvider = ({ children }) => {
             fetchNotifications();
             fetchUnreadCount();
 
-            // Poll for new notifications every 30 seconds
+            // Poll for new notifications every 3 seconds
             const interval = setInterval(() => {
                 fetchUnreadCount();
-            }, 30000);
+            }, 3000);
 
             return () => clearInterval(interval);
         }
