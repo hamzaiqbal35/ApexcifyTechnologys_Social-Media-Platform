@@ -12,6 +12,7 @@ import Notifications from './pages/Notifications';
 import People from './pages/People';
 import Landing from './pages/Landing';
 import AdminDashboard from './pages/AdminDashboard';
+import PostView from './pages/PostView';
 import AdminRoute from './components/AdminRoute';
 
 function App() {
@@ -36,6 +37,15 @@ function App() {
                       <Home />
                     </div>
                   </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/post/:id"
+                element={
+                  <div className="min-h-screen bg-bg-primary">
+                    <Navbar />
+                    <PostView />
+                  </div>
                 }
               />
               <Route
