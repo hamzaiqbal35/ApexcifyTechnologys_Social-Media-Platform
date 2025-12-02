@@ -272,6 +272,11 @@ exports.blockUser = async (req, res) => {
             return res.status(400).json({ message: 'You cannot block yourself' });
         }
 
+        // Prevent blocking admin users
+        if (userToBlock.role === 'admin') {
+            return res.status(403).json({ message: 'Cannot block admin users' });
+        }
+
         // Check if already blocked
         if (currentUser.blockedUsers.includes(userToBlock._id)) {
             return res.status(400).json({ message: 'User already blocked' });
@@ -315,6 +320,14 @@ exports.createReport = async (req, res) => {
 
         if (!reportedUserId && !reportedPostId) {
             return res.status(400).json({ message: 'Must report either a user or a post' });
+        }
+
+        // Prevent reporting admin users
+        if (reportedUserId) {
+            const reportedUser = await User.findById(reportedUserId);
+            if (reportedUser && reportedUser.role === 'admin') {
+                return res.status(403).json({ message: 'Cannot report admin users' });
+            }
         }
 
         const report = await Report.create({
