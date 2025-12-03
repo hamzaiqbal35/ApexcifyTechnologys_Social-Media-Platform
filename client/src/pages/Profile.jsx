@@ -33,7 +33,11 @@ const Profile = () => {
     const [showPasswordSection, setShowPasswordSection] = useState(false);
     const [passwordError, setPasswordError] = useState('');
     const [passwordSuccess, setPasswordSuccess] = useState('');
+
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deletePassword, setDeletePassword] = useState('');
+    const [showDeletePassword, setShowDeletePassword] = useState(false);
+    const [editEmail, setEditEmail] = useState('');
 
     const isOwnProfile = currentUser?._id === id;
 
@@ -48,6 +52,7 @@ const Profile = () => {
             setProfile(response.data);
             setEditBio(response.data.bio || '');
             setEditUsername(response.data.username || '');
+            setEditEmail(response.data.email || '');
             setEditAvatar(response.data.avatar || '');
 
             // Check if following
@@ -121,7 +126,8 @@ const Profile = () => {
             const response = await userAPI.updateProfile({
                 bio: editBio,
                 avatar: editAvatar,
-                username: editUsername
+                username: editUsername,
+                email: editEmail
             });
             setProfile(response.data);
             updateUser(response.data);
@@ -158,8 +164,12 @@ const Profile = () => {
 
     const handleDeleteAccount = async () => {
         try {
+            if (!deletePassword) {
+                alert('Please enter your password to confirm account deletion');
+                return;
+            }
             setUpdating(true);
-            await userAPI.deleteAccount();
+            await userAPI.deleteAccount(deletePassword);
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             window.location.href = '/login';
@@ -348,6 +358,7 @@ const Profile = () => {
                     setShowEditModal(false);
                     setEditBio(profile?.bio || '');
                     setEditUsername(profile?.username || '');
+                    setEditEmail(profile?.email || '');
                     setEditAvatar(profile?.avatar || '');
                     setCurrentPassword('');
                     setNewPassword('');
@@ -388,9 +399,10 @@ const Profile = () => {
                                     <label className="block text-xs font-medium mb-1">Email</label>
                                     <input
                                         type="email"
-                                        className="input input-sm w-full bg-bg-secondary cursor-not-allowed opacity-70"
-                                        value={profile.email}
-                                        disabled
+                                        className={`input input-sm w-full ${currentUser?.role !== 'admin' ? 'bg-bg-secondary cursor-not-allowed opacity-70' : ''}`}
+                                        value={editEmail}
+                                        onChange={(e) => setEditEmail(e.target.value)}
+                                        disabled={currentUser?.role !== 'admin'}
                                     />
                                 </div>
                             </div>
@@ -523,7 +535,9 @@ const Profile = () => {
                     <div className="border-t border-border pt-2">
                         <button
                             onClick={() => setShowDeleteConfirm(true)}
-                            className="text-error text-xs hover:underline"
+                            className={`text-error text-xs hover:underline ${currentUser?.role === 'admin' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            disabled={currentUser?.role === 'admin'}
+                            title={currentUser?.role === 'admin' ? "Admins cannot delete their account" : ""}
                         >
                             Delete Account
                         </button>
@@ -534,7 +548,11 @@ const Profile = () => {
             {/* Delete Account Confirmation Modal */}
             <Modal
                 isOpen={showDeleteConfirm}
-                onClose={() => setShowDeleteConfirm(false)}
+                onClose={() => {
+                    setShowDeleteConfirm(false);
+                    setDeletePassword('');
+                    setShowDeletePassword(false);
+                }}
                 title="Delete Account"
             >
                 <div className="space-y-4 max-h-120 max-w-96 overflow-y-auto overflow-x-hidden">
@@ -542,6 +560,34 @@ const Profile = () => {
                         Are you sure you want to delete your account? This action cannot be undone.
                         All your posts, comments, and data will be permanently removed.
                     </p>
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Confirm Password</label>
+                        <div className="relative">
+                            <input
+                                type={showDeletePassword ? "text" : "password"}
+                                className="input w-full pr-10"
+                                placeholder="Enter your password"
+                                value={deletePassword}
+                                onChange={(e) => setDeletePassword(e.target.value)}
+                            />
+                            <button
+                                type="button"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-text-muted hover:text-text-primary transition-colors"
+                                onClick={() => setShowDeletePassword(!showDeletePassword)}
+                            >
+                                {showDeletePassword ? (
+                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                                    </svg>
+                                ) : (
+                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
+                    </div>
                     <div className="flex gap-3 justify-end">
                         <button
                             onClick={() => setShowDeleteConfirm(false)}

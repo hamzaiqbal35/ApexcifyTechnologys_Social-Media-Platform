@@ -70,6 +70,17 @@ exports.updateProfile = async (req, res) => {
         if (bio !== undefined) user.bio = bio;
         if (avatar !== undefined) user.avatar = avatar;
 
+        // Allow admin to update email
+        if (req.user.role === 'admin' && req.body.email) {
+            if (req.body.email !== user.email) {
+                const emailExists = await User.findOne({ email: req.body.email });
+                if (emailExists) {
+                    return res.status(400).json({ message: 'Email is already taken' });
+                }
+                user.email = req.body.email;
+            }
+        }
+
         await user.save();
 
         res.json(user);
@@ -106,10 +117,21 @@ exports.changePassword = async (req, res) => {
 // Delete account
 exports.deleteAccount = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id);
+        const { password } = req.body;
+        const user = await User.findById(req.user._id).select('+password');
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Verify password
+        if (!password) {
+            return res.status(400).json({ message: 'Password is required to delete account' });
+        }
+
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid password' });
         }
 
         // Delete user's posts

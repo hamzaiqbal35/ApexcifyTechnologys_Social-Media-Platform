@@ -59,7 +59,7 @@ export const userAPI = {
     unblockUser: (id) => api.delete(`/users/${id}/block`),
     createReport: (data) => api.post('/users/report', data),
     changePassword: (data) => api.put('/users/password', data),
-    deleteAccount: () => api.delete('/users/account'),
+    deleteAccount: (password) => api.delete('/users/account', { data: { password } }),
 };
 
 // Post API
