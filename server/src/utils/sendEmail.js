@@ -20,7 +20,8 @@ const sendEmail = async (options) => {
         from: `EchoSocial <${process.env.EMAIL_USER}>`,
         to: options.email,
         subject: options.subject,
-        text: options.message
+        text: options.message,
+        attachments: options.attachments || []
     };
 
     const info = await transporter.sendMail(message);

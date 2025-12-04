@@ -116,5 +116,12 @@ export const adminAPI = {
     resolveReport: (id, status) => api.put(`/admin/reports/${id}/resolve`, { status }),
 };
 
+// Contact API
+export const contactAPI = {
+    sendContactMessage: (data) => api.post('/contact', data, {
+        headers: data instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : undefined
+    }),
+};
+
 export default api;
 

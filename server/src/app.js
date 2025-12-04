@@ -11,6 +11,7 @@ const commentRoutes = require('./routes/commentRoutes');
 const feedRoutes = require('./routes/feedRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/feed', feedRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

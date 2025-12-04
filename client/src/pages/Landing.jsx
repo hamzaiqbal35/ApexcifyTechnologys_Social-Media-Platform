@@ -84,6 +84,9 @@ const Landing = () => {
 
             {/* Footer */}
             <footer className="relative z-10 py-8 text-center text-text-muted text-sm">
+                <div className="flex justify-center gap-6 mb-4">
+                    <Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link>
+                </div>
                 <p>&copy; {new Date().getFullYear()} EchoSocial. All rights reserved.</p>
             </footer>
         </div>
